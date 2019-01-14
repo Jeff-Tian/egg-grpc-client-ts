@@ -7,12 +7,9 @@ node_modules/
 coverage/
 .idea/
 *.swp
+s
+# ignore the .ts files
+*.ts
 
-app/**/*.map
-test/**/*.map
-config/**/*.map
-
-typings/app/**/*.ts
-typings/config/**/*.ts
-codegen/dist/**/*.ts
-
+# include the .d.ts files
+!*.d.ts
