@@ -28,7 +28,7 @@ async function getMultiTierServices(
   const protoDir = path.join(app.baseDir, clientConfig.protoPath)
 
   if (!(await exists(protoDir))) {
-    throw new Error('proto directory not exist')
+    throw new Error(`proto directory not exist: ${protoDir}, app.baseDir = ${app.baseDir}, clientConfig.protoPath = ${clientConfig.protoPath}`)
   }
   const protoFileList = await readdir(protoDir)
   for (const protoFile of protoFileList) {
