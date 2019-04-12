@@ -36,8 +36,10 @@ async function getMultiTierServices(
       continue
     }
 
+    const relativeOrAbsolutePath = app.config.grpcClient.loaderOption && app.config.grpcClient.loaderOption.includeDirs ? protoFile : path.join(protoDir, protoFile)
+
     const proto = await loader.load(
-      path.join(protoDir, protoFile),
+      relativeOrAbsolutePath,
       app.config.grpcClient.loaderOption || {
         keepCase: true,
         longs: String,
