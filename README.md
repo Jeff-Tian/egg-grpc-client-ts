@@ -61,3 +61,6 @@ Please open an issue [here](https://github.com/eggjs/egg/issues).
 ## License
 
 [MIT](LICENSE)
+
+## Release Notes:
+- **1.1.5**: 报错时，把相关 server address, service, method, 参数 等元信息带上。

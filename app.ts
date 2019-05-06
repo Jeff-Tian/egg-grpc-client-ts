@@ -98,6 +98,24 @@ async function addServiceClient(
 
   relevantParent[tierName] = client
   for (const methodName of Object.keys(ServiceClient.service)) {
-    client[methodName] = util.promisify(client[methodName])
+    const method = client[methodName]
+
+    client[methodName] = util.promisify((arg:any, callback:(err:any, res:any)=>void) => {
+      method.call(client, arg, (err:any, res:any) => {
+        if (err) {
+          err = {
+            ...err,
+            meta: {
+              address,
+              service: tierName,
+              method: methodName,
+              arg,
+            },
+          }
+        }
+
+        callback(err, res)
+      })
+    })
   }
 }
