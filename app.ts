@@ -112,9 +112,10 @@ async function addServiceClient(
             ...err,
             meta: {
               address,
+              clientConfig,
               service: tierName,
               method: methodName,
-              arg,
+              arg
             },
           }
         }
