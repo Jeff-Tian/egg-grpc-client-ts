@@ -7,4 +7,5 @@ interface ClientConfig {
   protoPath: string,
   host: string,
   port: number,
+  timeout: number
 }

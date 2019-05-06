@@ -100,8 +100,13 @@ async function addServiceClient(
   for (const methodName of Object.keys(ServiceClient.service)) {
     const method = client[methodName]
 
-    client[methodName] = util.promisify((arg:any, callback:(err:any, res:any)=>void) => {
-      method.call(client, arg, (err:any, res:any) => {
+    client[methodName] = util.promisify((arg:any, options: any, callback:(err:any, res:any)=>void) => {
+      if(typeof options === 'function'){
+        callback = options;
+        options = {deadline: new Date().getTime() + (Number(clientConfig.timeout )|| 10000)}
+      }
+
+      method.call(client, arg, options, (err:any, res:any) => {
         if (err) {
           err = {
             ...err,

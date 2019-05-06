@@ -64,3 +64,5 @@ Please open an issue [here](https://github.com/eggjs/egg/issues).
 
 ## Release Notes:
 - **1.1.5**: 报错时，把相关 server address, service, method, 参数 等元信息带上。
+
+- **1.1.6**: fail fast。默认超时时间为 10 秒（原来默认 1 分钟，太长了）
