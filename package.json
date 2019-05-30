@@ -1,6 +1,6 @@
 {
   "name": "@uni/egg-grpc-client",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "",
   "eggPlugin": {
     "name": "grpcClient"
@@ -12,17 +12,18 @@
   ],
   "dependencies": {
     "@grpc/proto-loader": "^0.3.0",
-    "grpc": "^1.17.0"
+    "grpc": "^1.21.1"
   },
   "devDependencies": {
+    "@types/mocha": "^5.2.6",
     "@types/node": "^10.12.0",
     "autod": "^3.0.0",
     "autod-egg": "^1.0.0",
     "egg": "^2.0.0",
     "egg-bin": "^4.3.0",
-    "egg-ts-helper": "^1.13.0",
     "egg-ci": "^1.8.0",
     "egg-mock": "^3.13.0",
+    "egg-ts-helper": "^1.13.0",
     "tslib": "^1.9.3",
     "tslint": "^5.11.0",
     "webstorm-disable-index": "^1.2.0"
@@ -35,14 +36,15 @@
   },
   "scripts": {
     "test": "npm run lint -- --fix && egg-bin pkgfiles && npm run test-local",
-    "test-local": "egg-bin test",
+    "test-local": "npm run tsc && egg-bin test",
     "tsc": "ets && tsc -p tsconfig.json",
     "cov": "egg-bin cov",
     "lint": "tslint .",
     "ci": "egg-bin pkgfiles --check && npm run lint && npm run cov",
     "pkgfiles": "egg-bin pkgfiles",
     "autod": "autod",
-    "clean": "ets clean"
+    "clean": "ets clean",
+    "test-server": "ts-node test/fixtures/apps/grpc-client-test/grpc/grpc-server.ts"
   },
   "files": [
     "app.js",

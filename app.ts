@@ -4,20 +4,12 @@ import * as util from 'util'
 import * as grpc from 'grpc'
 import * as loader from '@grpc/proto-loader'
 import { Application } from 'egg'
-
 const exists = util.promisify(fs.exists)
 const readdir = util.promisify(fs.readdir)
 
 export default async (app: Application) => {
-  // const clientServicesMap: Indexed = {}
-  // await Promise.all(
-  //     app.config.grpcClient.clients.map(async (clientConfig: ClientConfig) => {
-  //         const services = await getMultiTierServices(app, clientConfig)
-  //         clientServicesMap[clientConfig.name] = services
-  //     }),
-  // )
+  console.log('adding Singleton...')
   app.addSingleton('grpcClient', getMultiTierServices)
-  // app.grpcClient = clientServicesMap
 }
 
 async function getMultiTierServices(
@@ -55,7 +47,7 @@ async function getMultiTierServices(
         services[packName] = definition[packName]
       }
       const tier: Indexed = definition[packName]
-      traverseDefinition(services, tier, packName, clientConfig)
+      await traverseDefinition(services, tier, packName, clientConfig)
     }
   }
   return services
@@ -76,7 +68,7 @@ async function traverseDefinition(
     if (!relevantCurrent) {
       relevantCurrent = relevantParent[tierName] = {}
     }
-    traverseDefinition(
+    await traverseDefinition(
       relevantCurrent,
       tier[subTierName],
       subTierName,
@@ -106,6 +98,8 @@ async function addServiceClient(
         options = {deadline: new Date().getTime() + (Number(clientConfig.timeout )|| 10000)}
       }
 
+      console.log('options ============== >>>>> ', options)
+
       method.call(client, arg, options, (err:any, res:any) => {
         if (err) {
           err = {
@@ -115,7 +109,8 @@ async function addServiceClient(
               clientConfig,
               service: tierName,
               method: methodName,
-              arg
+              arg,
+              options
             },
           }
         }
