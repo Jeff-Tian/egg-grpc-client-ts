@@ -24,7 +24,7 @@ describe("test/grpc-client.test.js", () => {
                 .get("passport")
                 .passport.profile.ProfileService.getUserInfo({
                 userId: "230371e2-eb07-4b2b-aa61-73fd27c5387e"
-            }, metaData)
+            })
                 .then((res: any) => {
                     console.log('结果 = ', res)
                     resolve()
@@ -38,7 +38,10 @@ describe("test/grpc-client.test.js", () => {
         return app
             .httpRequest()
             .get("/")
-            .expect("hi, grpcClient")
+            .expect({
+                "message": "hi, grpcClient",
+                "result": {"userId": "", "username": "", "avatar": "", "nickname": "", "gender": ""}
+            })
             .expect(200)
     })
 })

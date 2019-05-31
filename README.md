@@ -62,7 +62,19 @@ Please open an issue [here](https://github.com/eggjs/egg/issues).
 
 [MIT](LICENSE)
 
+## Test
+
+```shell
+# start test grpc server
+npm run test-server
+
+# In another shell, run:
+npm run test-local
+```
+
 ## Release Notes:
 - **1.1.5**: 报错时，把相关 server address, service, method, 参数 等元信息带上。
 
 - **1.1.6**: fail fast。默认超时时间为 10 秒（原来默认 1 分钟，太长了）
+
+- **2.0.0**: 允许传入 grpcMeta，实现分布式链路跟踪
