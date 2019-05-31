@@ -1,6 +1,6 @@
 {
   "name": "@uni/egg-grpc-client",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "",
   "eggPlugin": {
     "name": "grpcClient"
@@ -51,7 +51,8 @@
     "agent.js",
     "index.d.ts",
     "typings",
-    "config/config.default.js"
+    "config/config.default.js",
+    "app/middleware/grpcMeta.js"
   ],
   "ci": {
     "version": "8, 9"
