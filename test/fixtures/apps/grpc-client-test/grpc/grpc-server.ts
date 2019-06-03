@@ -13,6 +13,7 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 const proto: any = grpc.loadPackageDefinition(packageDefinition)
 
 function main() {
+    console.log('starting grpc server...')
     const server = new grpc.Server()
     server.addService(proto.passport.profile.ProfileService.service, {
         getUserInfo: (call: any, callback: any) => {

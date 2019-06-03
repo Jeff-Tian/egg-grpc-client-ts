@@ -1,14 +1,15 @@
 {
-  "name": "@uni/egg-grpc-client",
+  "name": "egg-grpc-client-ts",
   "version": "2.0.1",
-  "description": "",
+  "description": "TypeScript version of egg grpc client plugin.",
   "eggPlugin": {
-    "name": "grpcClient"
+    "name": "grpcClientTs"
   },
   "keywords": [
     "egg",
     "eggPlugin",
-    "egg-plugin"
+    "egg-plugin",
+    "grpc"
   ],
   "dependencies": {
     "@grpc/proto-loader": "^0.3.0",
@@ -19,13 +20,17 @@
     "@types/node": "^10.12.0",
     "autod": "^3.0.0",
     "autod-egg": "^1.0.0",
+    "coffee": "^5.2.1",
     "egg": "^2.0.0",
     "egg-bin": "^4.3.0",
     "egg-ci": "^1.8.0",
     "egg-mock": "^3.13.0",
     "egg-ts-helper": "^1.13.0",
+    "ts-node": "^8.2.0",
+    "tsc": "^1.20150623.0",
     "tslib": "^1.9.3",
     "tslint": "^5.11.0",
+    "typescript": "^3.5.1",
     "webstorm-disable-index": "^1.2.0"
   },
   "egg": {
@@ -40,31 +45,30 @@
     "tsc": "ets && tsc -p tsconfig.json",
     "cov": "egg-bin cov",
     "lint": "tslint .",
-    "ci": "egg-bin pkgfiles --check && npm run lint && npm run cov",
+    "ci": "egg-bin pkgfiles --check && npm run lint && npm run test-local && npm run cov",
     "pkgfiles": "egg-bin pkgfiles",
     "autod": "autod",
     "clean": "ets clean",
-    "test-server": "ts-node test/fixtures/apps/grpc-client-test/grpc/grpc-server.ts"
+    "test-server": "ts-node test/fixtures/apps/grpc-client-test/grpc/grpc-server.ts",
+    "prepublish": "npm run test-local"
   },
   "files": [
+    "app",
+    "config",
     "app.js",
-    "agent.js",
-    "index.d.ts",
-    "typings",
-    "config/config.default.js",
-    "app/middleware/grpcMeta.js"
+    "index.d.ts"
   ],
   "ci": {
     "version": "8, 9"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://e.coding.net/unicareer/egg-grpc-client.git"
+    "url": "https://github.com/Jeff-Tian/egg-grpc-client-ts"
   },
   "bugs": {
-    "url": "https://github.com/eggjs/egg/issues"
+    "url": "https://github.com/Jeff-Tian/egg-grpc-client-ts/issues"
   },
-  "homepage": "https://unicareer.coding.net/p/egg-grpc-client/git/blob/master/README.md",
-  "author": "xiaozhong.liu,jialei.yang",
+  "homepage": "https://github.com/Jeff-Tian/egg-grpc-client-ts",
+  "author": "jeff.tian@outlook.com",
   "license": "MIT"
 }
