@@ -1,14 +1,15 @@
 {
-  "name": "@uni/egg-grpc-client",
+  "name": "egg-grpc-client-ts",
   "version": "2.0.1",
-  "description": "",
+  "description": "TypeScript version of egg grpc client plugin.",
   "eggPlugin": {
-    "name": "grpcClient"
+    "name": "grpcClientTs"
   },
   "keywords": [
     "egg",
     "eggPlugin",
-    "egg-plugin"
+    "egg-plugin",
+    "grpc"
   ],
   "dependencies": {
     "@grpc/proto-loader": "^0.3.0",
@@ -40,11 +41,12 @@
     "tsc": "ets && tsc -p tsconfig.json",
     "cov": "egg-bin cov",
     "lint": "tslint .",
-    "ci": "egg-bin pkgfiles --check && npm run lint && npm run cov",
+    "ci": "egg-bin pkgfiles --check && npm run lint && && npm run test-local && npm run cov",
     "pkgfiles": "egg-bin pkgfiles",
     "autod": "autod",
     "clean": "ets clean",
-    "test-server": "ts-node test/fixtures/apps/grpc-client-test/grpc/grpc-server.ts"
+    "test-server": "ts-node test/fixtures/apps/grpc-client-test/grpc/grpc-server.ts",
+    "prepublish": "npm run test-local"
   },
   "files": [
     "app.js",
@@ -59,12 +61,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://e.coding.net/unicareer/egg-grpc-client.git"
+    "url": "https://github.com/Jeff-Tian/egg-grpc-client-ts"
   },
   "bugs": {
-    "url": "https://github.com/eggjs/egg/issues"
+    "url": "https://github.com/Jeff-Tian/egg-grpc-client-ts/issues"
   },
-  "homepage": "https://unicareer.coding.net/p/egg-grpc-client/git/blob/master/README.md",
-  "author": "xiaozhong.liu,jialei.yang",
+  "homepage": "https://github.com/Jeff-Tian/egg-grpc-client-ts",
+  "author": "jeff.tian@outlook.com",
   "license": "MIT"
 }

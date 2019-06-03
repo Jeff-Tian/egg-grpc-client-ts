@@ -1,4 +1,4 @@
-# egg-grpc-client
+# egg-grpc-client-ts
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
@@ -46,31 +46,39 @@ egg-grpc-client 版本 | egg 1.x
 ## 开启插件
 
 ```js
-// config/plugin.js
+// config/plugin.[t|j]s
 exports.grpcClient = {
   enable: true,
-  package: 'egg-grpc-client',
+  package: 'egg-grpc-client-ts',
 };
 ```
 
 ## 使用场景
 
-- Why and What: 描述为什么会有这个插件，它主要在完成一件什么事情。
-尽可能描述详细。
-- How: 描述这个插件是怎样使用的，具体的示例代码，甚至提供一个完整的示例，并给出链接。
+- 用作 BFF 层的 egg 项目，需要使用 gRPC 调用后台 service。
 
 ## 详细配置
 
-请到 [config/config.default.js](config/config.default.js) 查看详细配置项说明。
+请到 [config/config.default.ts](config/config.default.ts) 查看详细配置项说明。
 
-## 单元测试
+## 开发
+```shell
+# 确保本地单元测试
+npm run test-local
 
-<!-- 描述如何在单元测试中使用此插件，例如 schedule 如何触发。无则省略。-->
-
-## 提问交流
-
-请到 [egg issues](https://github.com/eggjs/egg/issues) 异步交流。
+# 发布
+npm publish
+```
 
 ## License
 
 [MIT](LICENSE)
+
+## 发布日志：
+
+- **1.1.5**: 报错时，把相关 server address, service, method, 参数 等元信息带上。
+
+- **1.1.6**: fail fast。默认超时时间为 10 秒（原来默认 1 分钟，太长了）
+
+- **2.0.1**: 允许传入 grpcMeta，实现分布式链路跟踪
+

@@ -1,4 +1,4 @@
-# egg-grpc-client
+# egg-grpc-client-ts
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
@@ -27,28 +27,36 @@ Description here.
 ## Install
 
 ```bash
-$ npm i egg-grpc-client --save
+$ npm i egg-grpc-client-ts --save
 ```
 
 ## Usage
 
 ```js
-// {app_root}/config/plugin.js
+// {app_root}/config/plugin.[t|j]s
 exports.grpcClient = {
   enable: true,
-  package: 'egg-grpc-client',
+  package: 'egg-grpc-client-ts',
 };
 ```
 
 ## Configuration
 
 ```js
-// {app_root}/config/config.default.js
+// {app_root}/config/config.default.[t|j]s
 exports.grpcClient = {
+  clients: [
+    {
+      name: 'main',
+      protoPath: 'app/proto/main',
+      host: '0.0.0.0',
+      port: 50051,
+    },
+  ],
 };
 ```
 
-see [config/config.default.js](config/config.default.js) for more detail.
+see [config/config.default.ts](config/config.default.ts) for more detail.
 
 ## Example
 
