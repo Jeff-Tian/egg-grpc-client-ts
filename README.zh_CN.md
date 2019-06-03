@@ -6,7 +6,7 @@ Inspired by [egg-grpc-client](https://github.com/tw949561391/egg-grpc-client).
 
 [![NPM version][npm-image]][npm-url]
 [![Build Status](https://travis-ci.com/Jeff-Tian/egg-grpc-client-ts.svg?branch=master)](https://travis-ci.com/Jeff-Tian/egg-grpc-client-ts)
-[![Build Status](https://travis-ci.com/Jeff-Tian/egg-grpc-client-ts.svg?branch=master)](https://travis-ci.com/Jeff-Tian/egg-grpc-client-ts)
+[![codecov](https://codecov.io/gh/Jeff-Tian/egg-grpc-client-ts/branch/master/graph/badge.svg)](https://codecov.io/gh/Jeff-Tian/egg-grpc-client-ts)
 [![David deps][david-image]][david-url]
 [![Known Vulnerabilities][snyk-image]][snyk-url]
 [![npm download][download-image]][download-url]
