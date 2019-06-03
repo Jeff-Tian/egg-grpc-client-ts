@@ -12,7 +12,7 @@ Inspired by [egg-grpc-client](https://github.com/tw949561391/egg-grpc-client).
 [![npm download][download-image]][download-url]
 
 [npm-image]: https://img.shields.io/npm/v/egg-grpc-client-ts.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/egg-grpc-client
+[npm-url]: https://npmjs.org/package/egg-grpc-client-ts
 [david-image]: https://img.shields.io/david/jeff-tian/egg-grpc-client-ts.svg?style=flat-square
 [david-url]: https://david-dm.org/jeff-tian/egg-grpc-client-ts
 [snyk-image]: https://snyk.io/test/npm/egg-grpc-client-ts/badge.svg?style=flat-square
