@@ -43,6 +43,11 @@ egg-grpc-client 版本 | egg 1.x
 
 -->
 
+## 安装使用
+```shell
+npm i egg-grpc-client-ts --save
+```
+
 ## 开启插件
 
 ```js
