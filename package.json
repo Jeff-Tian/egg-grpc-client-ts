@@ -1,6 +1,6 @@
 {
   "name": "egg-grpc-client-ts",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "TypeScript version of egg grpc client plugin.",
   "eggPlugin": {
     "name": "grpcClientTs"
@@ -13,7 +13,7 @@
   ],
   "dependencies": {
     "@grpc/proto-loader": "^0.3.0",
-    "grpc": "^1.21.1"
+    "grpc": "1.21.1"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.6",
@@ -22,7 +22,7 @@
     "autod-egg": "^1.0.0",
     "coffee": "^5.2.1",
     "egg": "^2.0.0",
-    "egg-bin": "^4.3.0",
+    "egg-bin": "^4.13.1",
     "egg-ci": "^1.8.0",
     "egg-mock": "^3.13.0",
     "egg-ts-helper": "^1.13.0",
@@ -30,7 +30,7 @@
     "tsc": "^1.20150623.0",
     "tslib": "^1.9.3",
     "tslint": "^5.11.0",
-    "typescript": "^3.5.1",
+    "typescript": "3.3.3333",
     "webstorm-disable-index": "^1.2.0"
   },
   "egg": {
