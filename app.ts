@@ -8,12 +8,7 @@ const exists = util.promisify(fs.exists)
 const readdir = util.promisify(fs.readdir)
 
 export default async (app: Application) => {
-  console.log('adding Singleton...')
   app.addSingleton('grpcClient', getMultiTierServices)
-
-  if(app.config.coreMiddleware.indexOf('grpcMeta') < 0){
-    app.config.coreMiddleware.push('grpcMeta')
-  }
 }
 
 async function getMultiTierServices(
@@ -96,14 +91,14 @@ async function addServiceClient(
   for (const methodName of Object.keys(ServiceClient.service)) {
     const method = client[methodName]
 
-    client[methodName] = util.promisify((arg:any, options: any, callback:(err:any, res:any)=>void) => {
-      if(typeof options === 'function'){
+    client[methodName] = util.promisify((arg: any, options: any, callback: (err: any, res: any) => void) => {
+      if (typeof options === 'function') {
         callback = options;
         options = {}
       }
 
       console.log('options = =============== >>> ', options)
-      method.call(client, arg, {...options, deadline: new Date().getTime() + (Number(clientConfig.timeout )|| 10000)}, (err:any, res:any) => {
+      method.call(client, arg, { ...options, deadline: new Date().getTime() + (Number(clientConfig.timeout) || 10000) }, (err: any, res: any) => {
         if (err) {
           err = {
             ...err,
