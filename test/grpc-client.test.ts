@@ -75,4 +75,16 @@ describe("test/grpc-client.test.js", () => {
             })
             .expect(200)
     })
+
+    it('should get /grpc-health', async () => {
+
+        return app
+            .httpRequest()
+            .get("/grpc-health")
+            .expect(200)
+            .expect({
+                health: true,
+                passport: {status: 'SERVING'}
+            })
+    })
 })
