@@ -43,12 +43,11 @@ export default async (app: Application) => {
                 [healthCheck]: await healthChecks[healthCheck]()
             }))
 
-            const healthChecksDone = await Promise.all(healthChecksPromises)
-
-            ctx.body = healthChecksDone.reduce((prev: Indexed, next: any) => ({
-                ...prev, ...next,
-                health: prev.health && next.status === 'SERVING'
-            }), {health: true})
+            ctx.body = (await Promise.all(healthChecksPromises))
+                .reduce((prev: Indexed, next: any) => ({
+                    ...prev, ...next,
+                    health: prev.health && next.status === 'SERVING'
+                }), {health: true})
         }
 
         app.router.get(mount[key], handler)
