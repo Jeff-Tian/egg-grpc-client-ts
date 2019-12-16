@@ -1,6 +1,6 @@
 {
   "name": "egg-grpc-client-ts",
-  "version": "2.0.2",
+  "version": "0.0.0-development",
   "description": "TypeScript version of egg grpc client plugin.",
   "eggPlugin": {
     "name": "grpcClientTs"
@@ -32,7 +32,8 @@
     "tslib": "^1.9.3",
     "tslint": "^5.11.0",
     "typescript": "3.3.3333",
-    "webstorm-disable-index": "^1.2.0"
+    "webstorm-disable-index": "^1.2.0",
+    "semantic-release": "^15.13.31"
   },
   "egg": {
     "typescript": true
@@ -51,7 +52,8 @@
     "autod": "autod",
     "clean": "ets clean",
     "test-server": "ts-node test/fixtures/apps/grpc-client-test/grpc/grpc-server.ts",
-    "prepublish": "npm run test-local"
+    "prepublish": "npm run test-local",
+    "semantic-release": "semantic-release"
   },
   "files": [
     "config",
@@ -59,7 +61,7 @@
     "index.d.ts"
   ],
   "ci": {
-    "version": "8, 9"
+    "version": "8, 9, 10"
   },
   "repository": {
     "type": "git",
