@@ -83,8 +83,14 @@ describe("test/grpc-client.test.js", () => {
             .get("/grpc-health")
             .expect(200)
             .expect({
-                health: true,
-                passport: {status: 'SERVING'}
+                health: false,
+                passport: {
+                    status: {
+                        code: 12,
+                        details: 'RPC method not implemented /grpc.health.v1.Health/Check',
+                        metadata: {_internal_repr: {}, flags: 0}
+                    }
+                }
             })
     })
 })

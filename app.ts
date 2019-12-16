@@ -4,6 +4,7 @@ import * as util from 'util'
 import * as grpc from 'grpc'
 import * as loader from '@grpc/proto-loader'
 import {Application, Context} from 'egg'
+import Client from 'grpc-man/lib/Client'
 
 const exists = util.promisify(fs.exists)
 const readdir = util.promisify(fs.readdir)
@@ -19,25 +20,38 @@ export default async (app: Application) => {
 
     app.addSingleton('grpcClient', getMultiTierServices)
 
+    const detectHealthStatus = async (client: any) => {
+        try {
+            return await new Client(client.host + ':' + client.port).grpc.grpc.health.v1.Health.check({'service': 'all'})
+        } catch (err) {
+            return err
+        }
+    }
+
     let config = app.config.grpcClient
     Object.keys(config.clients).forEach(client => {
-        healthChecks[client] = () => ({
-            status: 'SERVING'
+        healthChecks[client] = async () => ({
+            status: await detectHealthStatus(config.clients[client])
         })
     })
 
     const mount = config.mount || {}
 
-    Object.keys(mount).forEach(key => {
-        console.log('mounting ', key, mount[key])
-        app.router.get(mount[key], async (ctx: Context) => {
-            ctx.body = {
-                health: true,
-                ...Object.keys(healthChecks).map((healthCheck: any) => ({
-                    [healthCheck]: healthChecks[healthCheck]()
-                })).reduce((prev: Indexed, next: any) => ({...prev, ...next}), {})
-            }
-        })
+    Object.keys(mount).forEach((key) => {
+        const handler = async (ctx: Context) => {
+            const healthChecksPromises = Object.keys(healthChecks).map(async (healthCheck: string) => ({
+                [healthCheck]: await healthChecks[healthCheck]()
+            }))
+
+            const healthChecksDone = await Promise.all(healthChecksPromises)
+
+            ctx.body = healthChecksDone.reduce((prev: Indexed, next: any) => ({
+                ...prev, ...next,
+                health: prev.health && next.status === 'SERVING'
+            }), {health: true})
+        }
+
+        app.router.get(mount[key], handler)
     })
 
     mounted = true
@@ -47,7 +61,6 @@ async function getMultiTierServices(
     clientConfig: ClientConfig,
     app: Application,
 ) {
-    console.log('config = ', clientConfig)
     const services: Indexed = {}
     const protoDir = path.join(app.baseDir, clientConfig.protoPath)
 
