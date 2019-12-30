@@ -22,16 +22,16 @@ export default async (app: Application) => {
 
     const detectHealthStatus = async (client: any) => {
         try {
-            return await new Client(client.host + ':' + client.port).grpc.grpc.health.v1.Health.check({'service': 'all'})
+            return await new Client(client.host + ':' + client.port).grpc.grpc.health.v1.Health.check({service: 'all'})
         } catch (err) {
             return err
         }
     }
 
-    let config = app.config.grpcClient
+    const config = app.config.grpcClient
     Object.keys(config.clients).forEach(client => {
         healthChecks[client] = async () => ({
-            status: await detectHealthStatus(config.clients[client])
+            status: await detectHealthStatus(config.clients[client]),
         })
     })
 
@@ -40,13 +40,13 @@ export default async (app: Application) => {
     Object.keys(mount).forEach((key) => {
         const handler = async (ctx: Context) => {
             const healthChecksPromises = Object.keys(healthChecks).map(async (healthCheck: string) => ({
-                [healthCheck]: await healthChecks[healthCheck]()
+                [healthCheck]: await healthChecks[healthCheck](),
             }))
 
             ctx.body = (await Promise.all(healthChecksPromises))
                 .reduce((prev: Indexed, next: any) => ({
                     ...prev, ...next,
-                    health: prev.health && next.status === 'SERVING'
+                    health: prev.health && next.status === 'SERVING',
                 }), {health: true})
         }
 
@@ -130,7 +130,12 @@ async function addServiceClient(
     const ServiceClient = tier
     const address = `${clientConfig.host}:${clientConfig.port}`
     const credentials = grpc.credentials.createInsecure()
-    const client = new ServiceClient(address, credentials)
+
+    const clientOptions = {
+        'grpc.max_send_message_length': clientConfig.maxSendMessageLength,
+        'grpc.max_receive_message_length': clientConfig.maxReceiveMessageLength,
+    }
+    const client = new ServiceClient(address, credentials, clientOptions)
 
     relevantParent[tierName] = client
     for (const methodName of Object.keys(ServiceClient.service)) {
@@ -142,9 +147,9 @@ async function addServiceClient(
                 options = {}
             }
 
-            method.call(client, arg, {
+            const result = method.call(client, arg, {
                 ...options,
-                deadline: new Date().getTime() + (Number(clientConfig.timeout) || 10000)
+                deadline: new Date().getTime() + (Number(clientConfig.timeout) || 10000),
             }, (err: any, res: any) => {
                 if (err) {
                     err = {
@@ -155,13 +160,16 @@ async function addServiceClient(
                             service: tierName,
                             method: methodName,
                             arg,
-                            options
+                            options,
                         },
                     }
                 }
 
                 callback(err, res)
             })
+            if (result instanceof require('stream')) {
+                callback(undefined, result)
+            }
         })
     }
 }
