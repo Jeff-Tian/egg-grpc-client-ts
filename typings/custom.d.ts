@@ -7,5 +7,7 @@ interface ClientConfig {
   protoPath: string,
   host: string,
   port: number,
-  timeout: number
+  timeout: number,
+  maxSendMessageLength: number,
+  maxReceiveMessageLength: number,
 }
