@@ -6,8 +6,8 @@ import * as loader from '@grpc/proto-loader'
 import {Application, Context} from 'egg'
 import Client from 'grpc-man/lib/Client'
 
-const exists = util.promisify(fs.exists)
-const readdir = util.promisify(fs.readdir)
+const exists = fs.existsSync
+const readdir = fs.readdirSync
 
 let mounted = false
 
@@ -63,10 +63,10 @@ async function getMultiTierServices(
     const services: Indexed = {}
     const protoDir = path.join(app.baseDir, clientConfig.protoPath)
 
-    if (!(await exists(protoDir))) {
+    if (!(exists(protoDir))) {
         throw new Error(`proto directory not exist: ${protoDir}, app.baseDir = ${app.baseDir}, clientConfig.protoPath = ${clientConfig.protoPath}`)
     }
-    const protoFileList = await readdir(protoDir)
+    const protoFileList = readdir(protoDir)
     for (const protoFile of protoFileList) {
         if (path.extname(protoFile) !== '.proto') {
             continue
@@ -91,37 +91,58 @@ async function getMultiTierServices(
                 services[packName] = definition[packName]
             }
             const tier: Indexed = definition[packName]
-            await traverseDefinition(services, tier, packName, clientConfig)
+            traverseDefinition(services, tier, packName, clientConfig)
         }
     }
     return services
 }
 
-async function traverseDefinition(
+let count = 0
+
+function traverseDefinition(
     relevantParent: any,
     tier: any,
     tierName: string,
     clientConfig: ClientConfig,
-) {
-    if (tier.name === 'ServiceClient') {
-        return addServiceClient(relevantParent, tier, tierName, clientConfig)
+): void {
+    if (!tier || typeof tier === 'string' || tier instanceof Buffer) {
+        return
     }
+    count++
 
-    for (const subTierName of Object.keys(tier)) {
-        let relevantCurrent = relevantParent[tierName]
-        if (!relevantCurrent) {
-            relevantCurrent = relevantParent[tierName] = {}
+    if (count > 100) {
+        console.error('too much recursive calls!')
+        process.exit(1)
+    }
+    try {
+        if (tier.name === 'ServiceClient') {
+            return addServiceClient(relevantParent, tier, tierName, clientConfig)
         }
-        await traverseDefinition(
-            relevantCurrent,
-            tier[subTierName],
-            subTierName,
-            clientConfig,
-        )
+
+        for (const subTierName of Object.keys(tier)) {
+            let relevantCurrent = relevantParent[tierName]
+            if (!relevantCurrent) {
+                relevantCurrent = relevantParent[tierName] = {}
+            }
+            try {
+                traverseDefinition(
+                    relevantCurrent,
+                    tier[subTierName],
+                    subTierName,
+                    clientConfig,
+                )
+            } catch (ex) {
+                console.error(ex)
+                process.exit(1)
+            }
+        }
+    } catch (ex) {
+        console.error(ex)
+        process.exit(1)
     }
 }
 
-async function addServiceClient(
+function addServiceClient(
     relevantParent: any,
     tier: any,
     tierName: string,
