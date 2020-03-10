@@ -10,6 +10,7 @@ const exists = fs.existsSync
 const readdir = fs.readdirSync
 
 let mounted = false
+let MAX_RECURSIVE_CALLS = 10000
 
 const healthChecks: Indexed = {}
 
@@ -36,6 +37,7 @@ export default async (app: Application) => {
     })
 
     const mount = config.mount || {}
+    MAX_RECURSIVE_CALLS = config.maxRecursiveCalls
 
     Object.keys(mount).forEach((key) => {
         const handler = async (ctx: Context) => {
@@ -110,8 +112,8 @@ function traverseDefinition(
     }
     count++
 
-    if (count > 10000) {
-        console.error('too much recursive calls!')
+    if (count > MAX_RECURSIVE_CALLS) {
+        console.error(`Too many recursive calls that exceeds ${MAX_RECURSIVE_CALLS}! That usually caused by too many proto files. If you can not decrease the proto files then you can set config.maxRecursiveCalls to a larger number.`)
         process.exit(1)
     }
     try {

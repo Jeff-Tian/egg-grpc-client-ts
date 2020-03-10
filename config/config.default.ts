@@ -16,5 +16,6 @@ exports.grpcClient = {
     ],
     mount: {
         'health-check': '/grpc-health'
-    }
+    },
+    maxRecursiveCalls: 10000
 }
