@@ -110,7 +110,7 @@ function traverseDefinition(
     }
     count++
 
-    if (count > 100) {
+    if (count > 10000) {
         console.error('too much recursive calls!')
         process.exit(1)
     }
