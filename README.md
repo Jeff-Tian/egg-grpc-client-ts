@@ -45,14 +45,13 @@ exports.grpcClient = {
 ```js
 // {app_root}/config/config.default.[t|j]s
 exports.grpcClient = {
-  clients: [
-    {
-      name: 'main',
+  clients: {
+    main: {
       protoPath: 'app/proto/main',
       host: '0.0.0.0',
       port: 50051,
     },
-  ],
+  },
 };
 ```
 
