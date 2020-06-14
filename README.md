@@ -59,6 +59,10 @@ see [config/config.default.ts](config/config.default.ts) for more detail.
 
 ## Example
 
+- Full example of usage in plain js version of egg in this project's test directory: https://github.com/Jeff-Tian/egg-grpc-client-ts/tree/master/test/fixtures/apps/grpc-client-test
+
+- Full example of usage in typescript version of egg with step by step guide: https://github.com/Jeff-Tian/egg-grpc-client-ts-example
+
 <!-- example here -->
 
 ## Questions & Suggestions
