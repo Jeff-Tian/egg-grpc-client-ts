@@ -12,7 +12,7 @@
     "grpc"
   ],
   "dependencies": {
-    "@grpc/proto-loader": "^0.5.3",
+    "@grpc/proto-loader": "^0.7.0",
     "grpc": "1.24.2",
     "grpc-man": "^1.6.10"
   },
